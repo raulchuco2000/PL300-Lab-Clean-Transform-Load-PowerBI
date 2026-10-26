@@ -9,7 +9,7 @@
 
 ## 👤 Verificación de Perfil de Power BI y Fecha Completa
 
-<img width="1668" height="972" alt="Captura de pantalla PowerBI" src="https://github.com/user-attachments/assets/508d5664-475e-461d-b32a-fc6e7aab71ee" />
+<img width="1675" height="975" alt="image" src="https://github.com/user-attachments/assets/68c0ce98-5b05-4d79-8f89-a1be4745b12b" />
 
 ---
 
