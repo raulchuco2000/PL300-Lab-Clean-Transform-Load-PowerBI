@@ -175,3 +175,53 @@ Se configuró la tabla puente entre vendedores y territorios de venta:
 4. Se agregó la columna personalizada **`Cost`** para corregir los valores nulos de `TotalProductCost`:
    ```powerquery
    if [TotalProductCost] = null then [OrderQuantity] * [StandardCost] else [TotalProductCost]
+   ```
+5. Se quitaron `TotalProductCost` y `StandardCost`, se renombraron **`Quantity`**, **`Unit Price`** y **`Sales`**, y se asignó tipo entero a `Quantity` y decimal fijo (`$`) a los importes.
+
+#### 📊 Tabla Resultante: `Sales` (Muestra de hechos con costo calculado)
+| SalesOrderNumber | OrderDate | ProductKey | ResellerKey | EmployeeKey | SalesTerritoryKey | Quantity | Unit Price | Sales | Cost |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| SO43659 | 01/07/2017 | 344 | 5 | 282 | 4 | 1 | $2,024.99 | $2,024.99 | $1,912.15 |
+| SO43659 | 01/07/2017 | 217 | 5 | 282 | 4 | 3 | $20.19 | $60.56 | $39.26 |
+| SO43660 | 05/07/2017 | 310 | 2 | 281 | 2 | 2 | $2,146.96 | $4,293.92 | $4,342.59 |
+| SO43661 | 12/07/2017 | 352 | 6 | 284 | 6 | 4 | $1,229.46 | $4,917.84 | $4,471.42 |
+| SO43662 | 01/08/2017 | 214 | 1 | 286 | 1 | 6 | $20.19 | $121.12 | $78.52 |
+| SO43663 | 15/08/2017 | 561 | 8 | 291 | 10 | 2 | $1,430.44 | $2,860.88 | $2,963.88 |
+
+---
+
+### Ejercicio 7: Configuración de la consulta `Targets`
+1. Se renombró `ResellerSalesTargets` a **`Targets`**.
+2. Se seleccionaron `Year` y `EmployeeID` y se aplicó **Unpivot Other Columns** sobre las 12 columnas de meses (`M01` a `M12`).
+3. Se filtraron los valores con guion (`"-"`).
+4. Se renombró `Attribute` a **`MonthNumber`** (quitando la letra `"M"` y cambiando a tipo entero) y `Value` a **`Target`**.
+5. Se creó la columna **`TargetMonth`** a partir de ejemplos con el día 1 de cada mes (`1/MonthNumber/Year`) de tipo **Fecha**, eliminando `Year` y `MonthNumber`.
+6. Se configuró `Target` como **Número decimal fijo ($)** y se multiplicó por **`1000`** (809 filas).
+
+#### 📊 Tabla Resultante: `Targets` (Muestra de objetivos mensualizados)
+| EmployeeID | Target | TargetMonth |
+| :---: | :---: | :---: |
+| 502097814 | $50,000.00 | 01/07/2017 |
+| 502097814 | $55,000.00 | 01/08/2017 |
+| 502097814 | $60,000.00 | 01/09/2017 |
+| 841560125 | $120,000.00 | 01/07/2017 |
+| 841560125 | $130,000.00 | 01/08/2017 |
+| 841560125 | $180,000.00 | 01/01/2018 |
+| 191644724 | $140,000.00 | 01/01/2018 |
+| 191644724 | $145,000.00 | 01/02/2018 |
+
+---
+
+### Ejercicio 8: Carga Final al Modelo Semántico
+Al aplicar **Cerrar y aplicar (Close & Apply)**, el modelo semántico en **`Sales Analysis.pbix`** quedó conformado por las **7 tablas requeridas**:
+
+| N.º | Nombre de la Tabla | Tipo de Tabla en el Modelo | Carga Habilitada |
+| :---: | :--- | :--- | :---: |
+| 1 | **`Salesperson`** | Dimensión | ✅ Sí |
+| 2 | **`SalespersonRegion`** | Puente (Bridge) | ✅ Sí |
+| 3 | **`Product`** | Dimensión | ✅ Sí |
+| 4 | **`Reseller`** | Dimensión | ✅ Sí |
+| 5 | **`Region`** | Dimensión | ✅ Sí |
+| 6 | **`Sales`** | Hechos (Fact) | ✅ Sí |
+| 7 | **`Targets`** | Hechos (Fact) | ✅ Sí |
+| - | *`ColorFormats`* | *Consulta auxiliar integrada en `Product`* | ❌ No (Cursiva) |
