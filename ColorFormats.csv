@@ -1,0 +1,11 @@
+Color,Background Color Format,Font Color Format
+Black,#000000,#FFFFFF
+Blue,#0000FF,#FFFFFF
+Grey,#808080,#FFFFFF
+Multi,#FFFFFF,#000000
+NA,#FFFFFF,#000000
+Red,#FF0000,#FFFFFF
+Silver,#C0C0C0,#000000
+Silver/Black,#808080,#FFFFFF
+White,#FFFFFF,#000000
+Yellow,#FFFF00,#000000
